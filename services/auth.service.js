@@ -1,31 +1,13 @@
 const JWT = require("jsonwebtoken");
 const User = require("../models/User.model");
 const Token = require("../models/Token.model");
-const sendEmail = require("../utils/email/sendEmail");
+// const sendEmail = require("../utils/email/sendEmail");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
 const JWTSecret = process.env.JWT_SECRET;
 const bcryptSalt = process.env.BCRYPT_SALT;
 const clientURL = process.env.CLIENT_URL;
-
-const signup = async (data) => {
-  let user = await User.findOne({ email: data.email });
-  if (user) {
-    throw new Error("Email already exist", 422);
-  }
-  user = new User(data);
-  const token = JWT.sign({ id: user._id }, JWTSecret);
-  await user.save();
-
-  return (data = {
-    userId: user._id,
-    email: user.email,
-    name: user.name,
-    token: token,
-  });
-};
-
 const requestPasswordReset = async (email) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("Email does not exist");
@@ -94,7 +76,7 @@ const resetPassword = async (userId, token, password) => {
 };
 
 module.exports = {
-  signup,
+  // signup,
   requestPasswordReset,
   resetPassword,
 };
