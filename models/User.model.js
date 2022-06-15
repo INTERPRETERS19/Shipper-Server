@@ -5,11 +5,15 @@ const bcryptSalt = process.env.BCRYPT_SALT;
 
 const userSchema = new Schema(
   {
-    name: {
+    firstName: {
       type: String,
       trim: true,
       required: true,
-      unique: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      required: true,
     },
     email: {
       type: String,

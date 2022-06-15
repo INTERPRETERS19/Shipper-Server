@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 
 const JWTSecret = process.env.JWT_SECRET;
 const bcryptSalt = process.env.BCRYPT_SALT;
-//const clientURL = process.env.CLIENT_URL;
+const clientURL = process.env.CLIENT_URL;
 
 const signup = async (data) => {
   let user = await User.findOne({ email: data.email });
@@ -99,7 +99,7 @@ const resetPassword = async (userId, token, password) => {
 };
 
 module.exports = {
-  signup,
+  // signup,
   requestPasswordReset,
   resetPassword,
 };
