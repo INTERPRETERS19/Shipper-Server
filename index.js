@@ -1,11 +1,13 @@
 require("express-async-errors");
 require("dotenv").config();
-
+const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const connection = require("./db");
 const cors = require("cors");
 const port = 8080;
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));
 
 (async function db() {
   await connection();
