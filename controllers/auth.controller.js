@@ -1,5 +1,6 @@
 const {
   signup,
+  signin,
   requestPasswordReset,
   resetPassword,
 } = require("../services/auth.service");

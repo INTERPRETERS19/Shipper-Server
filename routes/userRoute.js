@@ -4,9 +4,12 @@ const {
   resetPasswordController,
 } = require("../controllers/auth.controller");
 
+const { signin } = require("../controllers/signinController");
+
 const router = require("express").Router();
 
 router.post("/signup", signUpController);
+router.post("/signin", signin);
 router.post("/requestResetPassword", resetPasswordRequestController);
 router.post("/resetPassword", resetPasswordController);
 
