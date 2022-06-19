@@ -21,7 +21,11 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
-    password: { type: String },
+
+    password: { type: String, required: true },
+    shipper_address: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

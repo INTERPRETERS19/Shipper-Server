@@ -3,6 +3,7 @@ const {
   // signin,
   requestPasswordReset,
   resetPassword,
+  changePassword,
 } = require("../services/auth.service");
 
 // const signUpController = async (req, res, next) => {
@@ -26,8 +27,18 @@ const resetPasswordController = async (req, res, next) => {
   return res.json(resetPasswordService);
 };
 
+const changePasswordController = async (req, res, next) => {
+  const changePasswordService = await changePassword(
+    req.body.userId,
+    req.body.oldPassword,
+    req.body.password
+  );
+  return res.json(changePasswordService);
+};
+
 module.exports = {
   // signUpController,
   resetPasswordRequestController,
   resetPasswordController,
+  changePasswordController,
 };

@@ -1,5 +1,5 @@
 const JWT = require("jsonwebtoken");
-const User = require("../models/User.model");
+const User = require("../models/shipper");
 const Token = require("../models/Token.model");
 const sendEmail = require("../utils/email/sendEmail");
 const crypto = require("crypto");
@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 
 const JWTSecret = process.env.JWT_SECRET;
 const bcryptSalt = process.env.BCRYPT_SALT;
-const clientURL = process.env.CLIENT_URL;
+//const clientURL = process.env.CLIENT_URL;
 
 const signup = async (data) => {
   let user = await User.findOne({ email: data.email });
@@ -51,7 +51,7 @@ const requestPasswordReset = async (email) => {
     user.email,
     "Password Reset Request",
     {
-      name: user.name,
+      name: user.fullname,
       link: link,
     },
     "./template/requestResetPassword.handlebars"
@@ -98,8 +98,50 @@ const resetPassword = async (userId, token, password) => {
   return true;
 };
 
+const changePassword = async (userId, oldPassword, password) => {
+  const user = await User.findById({ _id: userId });
+
+  if (!user)
+    return {
+      success: false,
+      message: "User not found!",
+    };
+
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+  if (!isMatch) {
+    return {
+      success: false,
+      message: "Old password is wrong!",
+    };
+  }
+
+  const hash = await bcrypt.hash(password, Number(bcryptSalt));
+
+  await User.updateOne(
+    { _id: userId },
+    { $set: { password: hash } },
+    { new: true }
+  );
+
+  sendEmail(
+    user.email,
+    "Password Changed Successfully",
+    {
+      name: user.name,
+    },
+    "./template/resetPassword.handlebars"
+  );
+
+  return {
+    success: true,
+    message: "Password changed successfully!",
+  };
+};
+
 module.exports = {
   // signup,
   requestPasswordReset,
   resetPassword,
+  changePassword,
 };
