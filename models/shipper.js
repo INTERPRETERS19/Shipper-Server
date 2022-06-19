@@ -21,7 +21,11 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
-    password: { type: String },
+
+    password: { type: String, required: true },
+    shipper_address: {
+      type: Object,
+    },
   },
   {
     timestamps: true,
@@ -37,4 +41,4 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("shipper", userSchema);

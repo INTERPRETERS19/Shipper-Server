@@ -1,27 +1,19 @@
 const JWT = require("jsonwebtoken");
-const User = require("../models/User.model");
-// const Token = require("../models/Token.model");
-// const sendEmail = require("../utils/email/sendEmail");
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
-
+const User = require("../models/shipper");
 const JWTSecret = process.env.JWT_SECRET;
-const bcryptSalt = process.env.BCRYPT_SALT;
 
 exports.signup = async (req, res) => {
   const { email, password, confirmPassword, firstName, lastName } = req.body;
-  console.log(email);
+  //console.log(email);
 
   try {
     const oldUser = await User.findOne({ email: email });
 
     if (oldUser) throw new Error("Email already exist", 422);
     if (password == confirmPassword) {
-      const hashedPassword = await bcrypt.hash(password, Number(bcryptSalt));
-
       const result = await User.create({
         email,
-        password: hashedPassword,
+        password,
         firstName,
         lastName,
       });
