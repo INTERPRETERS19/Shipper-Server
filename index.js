@@ -18,6 +18,8 @@ app.use(express.json());
 
 // API routes
 app.use("/", require("./routes/userRoute"));
+// const useShipment = require("./routes/shipments");
+// app.use(useShipment);
 // app.get("/", (req, res) => {
 //   res.send("Hello world");
 // });
