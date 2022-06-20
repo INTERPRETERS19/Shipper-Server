@@ -5,11 +5,15 @@ const bcryptSalt = process.env.BCRYPT_SALT;
 
 const userSchema = new Schema(
   {
-    name: {
+    firstName: {
       type: String,
       trim: true,
       required: true,
-      unique: true,
+    },
+    lastName: {
+      type: String,
+      trim: true,
+      required: true,
     },
     email: {
       type: String,
@@ -17,7 +21,11 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
-    password: { type: String },
+
+    password: { type: String, required: true },
+    shipper_address: {
+      type: Object,
+    },
   },
   {
     timestamps: true,
@@ -33,4 +41,4 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("shipper", userSchema);

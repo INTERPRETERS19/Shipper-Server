@@ -5,7 +5,7 @@ const tokenSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "user",
+    ref: "shipper",
   },
   token: {
     type: String,
@@ -15,7 +15,7 @@ const tokenSchema = new Schema({
     type: Date,
     required: true,
     default: Date.now,
-    expires: 900,
+    expires: 5000,
   },
 });
 
