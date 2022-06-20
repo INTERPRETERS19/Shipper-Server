@@ -2,7 +2,7 @@ const handlebars = require("handlebars");
 const fs = require("fs");
 const path = require("path");
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey = process.env.SENDGRID_API_KEY;
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = async (email, subject, payload, template) => {
   console.log(email);
