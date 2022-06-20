@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(
-  "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"
+
 );
 
 const sendEmail = async (email, subject, payload, template) => {
