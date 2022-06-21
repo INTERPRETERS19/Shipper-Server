@@ -1,5 +1,4 @@
 const Shipment = require("../models/shipment");
-const Address = require("../models/address");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
 
@@ -11,7 +10,6 @@ exports.createShipment = async (req, res) => {
     secondary_phone_number,
     shipment_weight,
     DV,
-    postal_code,
     description,
     quantity,
     COD,
@@ -20,14 +18,17 @@ exports.createShipment = async (req, res) => {
     payment_method,
     created_at,
     current_status,
-    receipient_address,
+    r_postal_code,
+    r_no_street,
+    r_district,
+    r_city,
     shipper_details,
     driver_assigned,
+    pickup_date,
   } = req.body;
 
-  const r_address = await Address.findById(receipient_address);
-  const user = await User.findById(driver_assigned, ["fullname", "email"]);
-  const shipper = await Shipper.findById(shipper_details, shipper);
+  const user = await User.findById(driver_assigned);
+  const shipper = await Shipper.findById(shipper_details);
 
   const shipment = await Shipment({
     id,
@@ -36,7 +37,6 @@ exports.createShipment = async (req, res) => {
     secondary_phone_number,
     shipment_weight,
     DV,
-    postal_code,
     description,
     quantity,
     COD,
@@ -45,30 +45,17 @@ exports.createShipment = async (req, res) => {
     payment_method,
     created_at,
     current_status,
-    receipient_address: r_address,
+    r_postal_code,
+    r_no_street,
+    r_district,
+    r_city,
     shipper_details: shipper,
     driver_assigned: user,
+    pickup_date,
   });
   await shipment.save();
   res.json({ success: true, shipment });
 };
-
-// exports.getStatus = async (req, res, next) => {
-//   try {
-//     const shipmentStatus = await Shipment.find(current_status);
-
-//     return res.status(200).json({
-//       success: true,
-//       count: shipmentStatus.length,
-//       data: shipmentStatus,
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       error: "Server Error",
-//     });
-//   }
-// };
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -124,21 +111,61 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
-    const newShipments = await Shipment.find();
-    // }).select({
-    //   id: 1,
-    //   COD: 1,
-    //   recipient_name: 1,
-    //   mobile_phone_number: 1,
-    //   description: 1,
-    //   created_at: 1,
-    //   receipient_address: 1,
-    // })
-
+    const newShipments = await Shipment.find({
+      current_status: "New",
+    });
     return res.status(200).json({
       success: true,
       count: newShipments.length,
       data: newShipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+
+exports.updateShipment = async (req, res, next) => {
+  try {
+    const shipments = await Shipment.updateOne(
+      { _id: req.body.id },
+      {
+        current_status: "PickUp",
+      }
+    );
+    // const shipments = await Shipment.find({ _id: req.body.id });
+    return res.status(200).json({
+      success: true,
+      message: "Updated successfully",
+      // message: shipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+exports.getAllReturns = async (req, res, next) => {
+  try {
+    const returns = await Shipment.find({
+      current_status: { $in: ["FailToDeliver", "Rescheduled"] },
+    }).select({
+      id: 1,
+      COD: 1,
+      recipient_name: 1,
+      shipment_weight: 1,
+      description: 1,
+      receipient_address: 1,
+      current_status: 1,
+    });
+
+    return res.status(200).json({
+      success: true,
+      count: returns.length,
+      data: returns,
     });
   } catch (err) {
     return res.status(500).json({
@@ -173,3 +200,4 @@ exports.getAllNewShipments = async (req, res, next) => {
 //     });
 //   }
 // };
+

@@ -24,7 +24,6 @@ exports.signin = async (req, res) => {
   // }
 
   const user = await User.findOne({ email });
-  // const id = await user._id;
 
   console.log(user);
 
