@@ -152,15 +152,16 @@ exports.getAllReturns = async (req, res, next) => {
   try {
     const returns = await Shipment.find({
       current_status: { $in: ["FailToDeliver", "Rescheduled"] },
-    }).select({
-      id: 1,
-      COD: 1,
-      recipient_name: 1,
-      shipment_weight: 1,
-      description: 1,
-      receipient_address: 1,
-      current_status: 1,
     });
+    // .select({
+    //   id: 1,
+    //   COD: 1,
+    //   recipient_name: 1,
+    //   shipment_weight: 1,
+    //   description: 1,
+    //   receipient_address: 1,
+    //   current_status: 1,
+    // });
 
     return res.status(200).json({
       success: true,
@@ -191,7 +192,7 @@ exports.getAllReturns = async (req, res, next) => {
 //     return res.status(200).json({
 //       success: true,
 //       count: pendingShipments.length,
-     
+
 //     });
 //   } catch (err) {
 //     return res.status(500).json({
@@ -200,4 +201,3 @@ exports.getAllReturns = async (req, res, next) => {
 //     });
 //   }
 // };
-
