@@ -124,7 +124,7 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
-    const newShipments = await Shipment.find({ current_status: "New" });
+    const newShipments = await Shipment.find();
     // }).select({
     //   id: 1,
     //   COD: 1,
@@ -147,3 +147,29 @@ exports.getAllNewShipments = async (req, res, next) => {
     });
   }
 };
+
+// exports.getAllPendingShipments = async (req, res, next) => {
+//   try {
+//     const pendingShipments = await Shipment.find({ current_status: "PickUp" } || { current_status: "New" } || { current_status: "Rescheduled" } ||{ current_status: "FailToDeliver" });
+//     // }).select({
+//     //   id: 1,
+//     //   COD: 1,
+//     //   recipient_name: 1,
+//     //   mobile_phone_number: 1,
+//     //   description: 1,
+//     //   created_at: 1,
+//     //   receipient_address: 1,
+//     // })
+
+//     return res.status(200).json({
+//       success: true,
+//       count: pendingShipments.length,
+     
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       success: false,
+//       error: "Server Error",
+//     });
+//   }
+// };
