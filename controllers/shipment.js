@@ -128,6 +128,24 @@ exports.getAllNewShipments = async (req, res, next) => {
     });
   }
 };
+exports.getAllPickups = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const pickups = await Shipment.find({ current_status: "PickUp",shipper_details: id });
+    console.log(pickups)
+
+    return res.status(200).json({
+      success: true,
+      count: pickups.length,
+      data: pickups,})
+    }
+   catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+  };
 
 exports.updateShipment = async (req, res, next) => {
   try {

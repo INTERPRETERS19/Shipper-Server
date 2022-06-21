@@ -27,6 +27,23 @@ const ShipmentSchema = new mongoose.Schema({
     required: true,
   },
 
+  r_postal_code: {
+    type: Number,
+  },
+
+  r_no_street: {
+    type: String,
+    required: true,
+  },
+  r_city: {
+    type: String,
+    required: true,
+  },
+  r_district: {
+    type: String,
+    required: true,
+  },
+
   shipment_weight: {
     type: Number,
     required: true,

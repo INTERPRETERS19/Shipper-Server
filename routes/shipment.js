@@ -6,12 +6,15 @@ const {
   getAllShipments,
   deleteShipment,
   getAllNewShipments,
+  getAllPickups,
   updateShipment,
   getAllReturns,
 } = require("../controllers/shipment");
 
 router.post("/createsh", createShipment);
 router.get("/allshipment", getAllShipments);
+router.get("/allNewshipment", getAllNewShipments);
+router.get("/allPickup/:id", getAllPickups);
 router.post("/delete_shipment", deleteShipment);
 router.get("/allNewshipment/:id", getAllNewShipments);
 router.get("/returns/:id", getAllReturns);
