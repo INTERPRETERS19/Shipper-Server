@@ -134,6 +134,7 @@ exports.updateShipment = async (req, res, next) => {
     const shipments = await Shipment.updateOne(
       { _id: req.body.id },
       {
+        pickup_date: req.body.value,
         current_status: "PickUp",
       }
     );
