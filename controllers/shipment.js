@@ -147,3 +147,20 @@ exports.getAllNewShipments = async (req, res, next) => {
     });
   }
 };
+exports.getAllPickups = async (req, res, next) => {
+  try {
+    const pickups = await Shipment.find({ current_status: "PickUp" });
+    
+
+    return res.status(200).json({
+      success: true,
+      count: pickups.length,
+      data: pickups,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
