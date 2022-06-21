@@ -111,8 +111,10 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const newShipments = await Shipment.find({
       current_status: "New",
+      shipper_details: id,
     });
     return res.status(200).json({
       success: true,
@@ -150,8 +152,10 @@ exports.updateShipment = async (req, res, next) => {
 };
 exports.getAllReturns = async (req, res, next) => {
   try {
+    const { id } = req.params;
     const returns = await Shipment.find({
       current_status: { $in: ["FailToDeliver", "Rescheduled"] },
+      shipper_details: id,
     });
     // .select({
     //   id: 1,
