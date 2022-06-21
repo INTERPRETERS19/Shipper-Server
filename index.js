@@ -8,6 +8,7 @@ const cors = require("cors");
 const port = 8080;
 const useShipment = require("./routes/shipment");
 const useShipper = require("./routes/shipper");
+const useHome = require("./routes/homeRouter");
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/", require("./routes/userRoute"));
 app.use(useShipment);
 app.use(useShipper);
+app.use(useHome);
 // app.get("/", (req, res) => {
 //   res.send("Hello world");
 // });

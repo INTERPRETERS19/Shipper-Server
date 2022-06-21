@@ -137,3 +137,29 @@ exports.getAllShipments = async (req, res, next) => {
     });
   }
 };
+
+exports.getAllNewShipments = async (req, res, next) => {
+  try {
+    const newShipments = await Shipment.find({ current_status: "New" });
+    // }).select({
+    //   id: 1,
+    //   COD: 1,
+    //   recipient_name: 1,
+    //   mobile_phone_number: 1,
+    //   description: 1,
+    //   created_at: 1,
+    //   receipient_address: 1,
+    // })
+
+    return res.status(200).json({
+      success: true,
+      count: newShipments.length,
+      data: newShipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
