@@ -13,8 +13,8 @@ const {
 router.post("/createsh", createShipment);
 router.get("/allshipment", getAllShipments);
 router.post("/delete_shipment", deleteShipment);
-router.get("/allNewshipment", getAllNewShipments);
-router.get("/returns", getAllReturns);
+router.get("/allNewshipment/:id", getAllNewShipments);
+router.get("/returns/:id", getAllReturns);
 router.post("/update_shipment", updateShipment);
 
 module.exports = router;
