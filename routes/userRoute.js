@@ -8,7 +8,7 @@ const { signin } = require("../controllers/signinController");
 const { signup } = require("../controllers/signupController");
 const {
   emailVerificationController,
-  requestEmailVerificationController
+  requestEmailVerificationController,
 } = require("../controllers/emailVerificationController");
 
 const router = require("express").Router();

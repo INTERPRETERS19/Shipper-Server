@@ -24,7 +24,8 @@ exports.signin = async (req, res) => {
   // }
 
   const user = await User.findOne({ email });
-  // const id = await user._id;
+  // const id = user._id;
+  console.log(user);
 
   console.log(user);
 
@@ -33,9 +34,10 @@ exports.signin = async (req, res) => {
       success: false,
       message: "user not found, with the given email!",
     });
+  console.log(user.password);
+  console.log(password);
 
   const isMatch = await bcrypt.compare(password, user.password);
-
   if (!isMatch) {
     return res.json({
       success: false,
@@ -43,11 +45,11 @@ exports.signin = async (req, res) => {
     });
   }
   const token = jwt.sign({ userId: user._id }, JWTSecret, {
-    expiresIn: 120,
+    expiresIn: "1d",
   });
 
   const userInfo = {
-    fullname: user.fullname,
+    firstName: user.firstName,
     email: user.email,
     avatar: user.avatar ? user.avatar : "",
     id: user._id,

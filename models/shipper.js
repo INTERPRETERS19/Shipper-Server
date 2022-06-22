@@ -21,6 +21,9 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
+<<<<<<< HEAD
+    password: { type: String },
+=======
     password: { 
       type: String,
       trim: true,
@@ -51,6 +54,7 @@ const userSchema = new Schema(
        default: false,
        required: true,
        },
+>>>>>>> 03efb6a31ab867e71bd9cacf5ad332d2b1e10046
   },
   {
     timestamps: true,
