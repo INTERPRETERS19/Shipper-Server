@@ -3,6 +3,8 @@ const User = require("../models/user");
 const Shipper = require("../models/shipper");
 
 exports.createShipment = async (req, res) => {
+  const  sid  = req.body.shipperid;
+  console.log(sid);
   const {
     id,
     recipient_name,
@@ -28,7 +30,7 @@ exports.createShipment = async (req, res) => {
   } = req.body;
 
   const user = await User.findById(driver_assigned);
-  const shipper = await Shipper.findById(shipper_details);
+  const shipper = await Shipper.findById(sid);
 
   const shipment = await Shipment({
     id,
