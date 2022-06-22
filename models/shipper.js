@@ -21,7 +21,40 @@ const userSchema = new Schema(
       unique: true,
       required: true,
     },
+<<<<<<< HEAD
     password: { type: String },
+=======
+    password: { 
+      type: String,
+      trim: true,
+      required: true,
+     },
+     mobile_no: { 
+      type: String,
+      trim: true,
+      required: true,
+     },
+     street: { 
+      type: String,
+      trim: true,
+      required: true,
+     },
+     city: { 
+      type: String,
+      trim: true,
+      required: true,
+     },
+     district: { 
+      type: String,
+      trim: true,
+      required: true,
+     },
+    verified: {
+      type: Boolean,
+       default: false,
+       required: true,
+       },
+>>>>>>> 03efb6a31ab867e71bd9cacf5ad332d2b1e10046
   },
   {
     timestamps: true,

@@ -2,7 +2,7 @@ const User = require("../models/shipper");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const JWTSecret = process.env.JWT_SECRET;
-const { createJWT } = require("../utils/auth");
+//const { createJWT } = require("../utils/auth");
 const emailRegexp =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 exports.signin = async (req, res) => {
@@ -27,6 +27,8 @@ exports.signin = async (req, res) => {
   // const id = user._id;
   console.log(user);
 
+  console.log(user);
+
   if (!user)
     return res.json({
       success: false,
@@ -36,7 +38,6 @@ exports.signin = async (req, res) => {
   console.log(password);
 
   const isMatch = await bcrypt.compare(password, user.password);
-  console.log(isMatch);
   if (!isMatch) {
     return res.json({
       success: false,
