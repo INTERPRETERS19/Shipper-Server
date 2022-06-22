@@ -1,4 +1,4 @@
-const Shipment = require("../models/shipment");
+const Shipment = require("../models/shipments");
 const Address = require("../models/address");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
@@ -136,13 +136,14 @@ exports.getCollections = async (req, res, next) => {
 exports.getAllReturns = async (req, res, next) => {
   try {
     const returns = await Shipment.find({
-      current_status: "FailToDeliver",
+      current_status: "Rescheduled" || "FailToDeliver",
     }).select({
       id: 1,
       COD: 1,
       recipient_name: 1,
       shipment_weight: 1,
       description: 1,
+      current_status: 1,
       receipient_address: 1,
     });
 
@@ -177,6 +178,23 @@ exports.getAllNewShipments = async (req, res, next) => {
       success: true,
       count: newShipments.length,
       data: newShipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+exports.deleteShipment = async (req, res, next) => {
+  try {
+    const shipments = await Shipment.deleteOne({ _id: req.body.id });
+    // const shipments = await Shipment.find({ _id: req.body.id });
+
+    return res.status(200).json({
+      success: true,
+      message: "Deleted successfully",
+      // message: shipments,
     });
   } catch (err) {
     return res.status(500).json({
