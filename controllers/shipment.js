@@ -129,3 +129,23 @@ exports.getAllShipments = async (req, res, next) => {
     });
   }
 };
+exports.getAllNewShipments = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const newShipments = await Shipment.find({
+      shipper_details: mongoose.Types.ObjectId(id),
+      current_status: "New",
+    });
+
+    return res.status(200).json({
+      success: true,
+      count: newShipments.length,
+      data: newShipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
