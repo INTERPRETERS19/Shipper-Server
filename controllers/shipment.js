@@ -57,23 +57,6 @@ exports.createShipment = async (req, res) => {
   res.json({ success: true, shipment });
 };
 
-// exports.getStatus = async (req, res, next) => {
-//   try {
-//     const shipmentStatus = await Shipment.find(current_status);
-
-//     return res.status(200).json({
-//       success: true,
-//       count: shipmentStatus.length,
-//       data: shipmentStatus,
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       error: "Server Error",
-//     });
-//   }
-// };
-
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().populate("userAddress", "city");
@@ -111,19 +94,7 @@ exports.deleteShipment = async (req, res, next) => {
 
 exports.getAllShipments = async (req, res, next) => {
   try {
-    const shipments = await Shipment.find()
-      .where({
-        COD: 0,
-        "driver_assigned.email": "jeno@gmail.com",
-      })
-      .select({ id: 1 });
-    //const shipments = await Shipment.find({COD: 0}).select({ current_status: 1 });
-    // {
-    //   COD: 0,
-    //   current_status: "Delivered",
-    //   "driver_assigned.fullname": "jeno",
-    // },
-    // ["_id"]
+    const shipments = await Shipment.find();
 
     return res.status(200).json({
       success: true,
@@ -140,17 +111,11 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
-    const newShipments = await Shipment.find({ current_status: "New" });
-    // }).select({
-    //   id: 1,
-    //   COD: 1,
-    //   recipient_name: 1,
-    //   mobile_phone_number: 1,
-    //   description: 1,
-    //   created_at: 1,
-    //   receipient_address: 1,
-    // })
-
+    const { id } = req.params;
+    const newShipments = await Shipment.find({
+      current_status: "New",
+      shipper_details: id,
+    });
     return res.status(200).json({
       success: true,
       count: newShipments.length,
@@ -163,3 +128,99 @@ exports.getAllNewShipments = async (req, res, next) => {
     });
   }
 };
+exports.getAllPickups = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const pickups = await Shipment.find({ current_status: "PickUp",shipper_details: id });
+    console.log(pickups)
+
+    return res.status(200).json({
+      success: true,
+      count: pickups.length,
+      data: pickups,})
+    }
+   catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+  };
+
+exports.updateShipment = async (req, res, next) => {
+  try {
+    const shipments = await Shipment.updateOne(
+      { _id: req.body.id },
+      {
+        pickup_date: req.body.value,
+        current_status: "PickUp",
+      }
+    );
+    // const shipments = await Shipment.find({ _id: req.body.id });
+    return res.status(200).json({
+      success: true,
+      message: "Updated successfully",
+      // message: shipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+exports.getAllReturns = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const returns = await Shipment.find({
+      current_status: { $in: ["FailToDeliver", "Rescheduled"] },
+      shipper_details: id,
+    });
+    // .select({
+    //   id: 1,
+    //   COD: 1,
+    //   recipient_name: 1,
+    //   shipment_weight: 1,
+    //   description: 1,
+    //   receipient_address: 1,
+    //   current_status: 1,
+    // });
+
+    return res.status(200).json({
+      success: true,
+      count: returns.length,
+      data: returns,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+
+// exports.getAllPendingShipments = async (req, res, next) => {
+//   try {
+//     const pendingShipments = await Shipment.find({ current_status: "PickUp" } || { current_status: "New" } || { current_status: "Rescheduled" } ||{ current_status: "FailToDeliver" });
+//     // }).select({
+//     //   id: 1,
+//     //   COD: 1,
+//     //   recipient_name: 1,
+//     //   mobile_phone_number: 1,
+//     //   description: 1,
+//     //   created_at: 1,
+//     //   receipient_address: 1,
+//     // })
+
+//     return res.status(200).json({
+//       success: true,
+//       count: pendingShipments.length,
+
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       success: false,
+//       error: "Server Error",
+//     });
+//   }
+// };
