@@ -58,7 +58,6 @@ exports.createShipment = async (req, res) => {
   await shipment.save();
   res.json({ success: true, shipment });
 };
-
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().populate("userAddress", "city");
@@ -79,12 +78,10 @@ exports.getUsers = async (req, res, next) => {
 exports.deleteShipment = async (req, res, next) => {
   try {
     const shipments = await Shipment.deleteOne({ _id: req.body.id });
-    // const shipments = await Shipment.find({ _id: req.body.id });
 
     return res.status(200).json({
       success: true,
       message: "Deleted successfully",
-      // message: shipments,
     });
   } catch (err) {
     return res.status(500).json({
@@ -113,6 +110,7 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
+
     const { id } = req.params;
     const newShipments = await Shipment.find({
       current_status: "New",
