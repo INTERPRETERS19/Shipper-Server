@@ -52,24 +52,6 @@ exports.createShipment = async (req, res) => {
   await shipment.save();
   res.json({ success: true, shipment });
 };
-
-// exports.getStatus = async (req, res, next) => {
-//   try {
-//     const shipmentStatus = await Shipment.find(current_status);
-
-//     return res.status(200).json({
-//       success: true,
-//       count: shipmentStatus.length,
-//       data: shipmentStatus,
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       error: "Server Error",
-//     });
-//   }
-// };
-
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().populate("userAddress", "city");
@@ -90,12 +72,10 @@ exports.getUsers = async (req, res, next) => {
 exports.deleteShipment = async (req, res, next) => {
   try {
     const shipments = await Shipment.deleteOne({ _id: req.body.id });
-    // const shipments = await Shipment.find({ _id: req.body.id });
 
     return res.status(200).json({
       success: true,
       message: "Deleted successfully",
-      // message: shipments,
     });
   } catch (err) {
     return res.status(500).json({
@@ -125,16 +105,6 @@ exports.getAllShipments = async (req, res, next) => {
 exports.getAllNewShipments = async (req, res, next) => {
   try {
     const newShipments = await Shipment.find();
-    // }).select({
-    //   id: 1,
-    //   COD: 1,
-    //   recipient_name: 1,
-    //   mobile_phone_number: 1,
-    //   description: 1,
-    //   created_at: 1,
-    //   receipient_address: 1,
-    // })
-
     return res.status(200).json({
       success: true,
       count: newShipments.length,

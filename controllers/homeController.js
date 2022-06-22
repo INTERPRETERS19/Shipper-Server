@@ -6,7 +6,9 @@ exports.getPending = async (req, res, next) => {
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status: { $in: ["PickUp", "Rescheduled", "FailToDeliver", "OutForDelivery"] },
+      current_status: {
+        $in: ["PickUp", "Rescheduled", "OutForDelivery"],
+      },
     });
     console.log(dataP);
     return res.status(200).json({
@@ -26,7 +28,7 @@ exports.getFailtoDeliver = async (req, res, next) => {
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"FailToDeliver",
+      current_status: "FailToDeliver",
     });
     console.log(dataP);
     return res.status(200).json({
@@ -46,7 +48,7 @@ exports.getPickUp = async (req, res, next) => {
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"PickUp",
+      current_status: "PickUp",
     });
     console.log(dataP);
     return res.status(200).json({
@@ -66,7 +68,7 @@ exports.getRescheduled = async (req, res, next) => {
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"Rescheduled",
+      current_status: "Rescheduled",
     });
     console.log(dataP);
     return res.status(200).json({
@@ -86,7 +88,7 @@ exports.getOutForDelivery = async (req, res, next) => {
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"OutForDelivery",
+      current_status: "OutForDelivery",
     });
     console.log(dataP);
     return res.status(200).json({
@@ -100,14 +102,13 @@ exports.getOutForDelivery = async (req, res, next) => {
     });
   }
 };
-
 
 exports.getNew = async (req, res, next) => {
   const { id } = req.params;
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"New",
+      current_status: "New",
     });
     console.log(dataP);
     return res.status(200).json({
@@ -122,12 +123,12 @@ exports.getNew = async (req, res, next) => {
   }
 };
 
-exports.getDelivered= async (req, res, next) => {
+exports.getDelivered = async (req, res, next) => {
   const { id } = req.params;
   try {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"Delivered",
+      current_status: "Delivered",
     });
     console.log(dataP);
     return res.status(200).json({
@@ -142,60 +143,38 @@ exports.getDelivered= async (req, res, next) => {
   }
 };
 
-exports.getPayable= async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const dataP = await Shipment.find({
-      shipper_details: mongoose.Types.ObjectId(id),
-      current_status:"Delivered",
-    });
-    console.log(dataP);
-    return res.status(200).json({
-      success: true,
-      count: dataP.length,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
+// exports.getPayable = async (req, res, next) => {
+//   const { id } = req.params;
+//   try {
+//     const dataP = await Shipment.find({
+//       shipper_details: mongoose.Types.ObjectId(id),
+//       current_status: "Delivered",
+//     });
+//     console.log(dataP);
+//     return res.status(200).json({
+//       success: true,
+//       count: dataP.length,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       success: false,
+//       error: "Server Error",
+//     });
+//   }
+// };
 
 exports.getRecievable = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const dataP = await Shipment.find({
-      shipper_details: mongoose.Types.ObjectId(id),
-      current_status: { $in: ["PickUp", "Rescheduled", "FailToDeliver", "OutForDelivery"] },
-
-    });
-    console.log(dataP);
-    return res.status(200).json({
-      success: true,
-      count: dataP.length,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
-
-
-exports.getPayable = async (req, res, next) => {
-  const { id } = req.params;
-  try {
     const datapy = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status: { $in: ["PickUp", "Rescheduled", "FailToDeliver", "OutForDelivery"] },
-      COD: { $gt: 0 },
-    });
-    console.log(datapy);
+      current_status: "Delivered",
+    }).select({ COD: 1 });
+    let total = 0;
+    datapy.forEach((data) => (total += data.COD));
     return res.status(200).json({
       success: true,
-      
+      total: total,
     });
   } catch (err) {
     return res.status(500).json({
@@ -204,4 +183,3 @@ exports.getPayable = async (req, res, next) => {
     });
   }
 };
-
