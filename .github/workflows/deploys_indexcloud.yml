@@ -20,7 +20,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DB_URL="mongodb+srv://Index:ve3Ir92pZNOGz1od@index.2r2ws.mongodb.net/IndexCloud?retryWrites=true&w=majority" >> .env
+          echo BCRYPT_SALT=10 >> .env
+          echo EMAIL_PORT=25 >> .env
+          echo JWT_SECRET=mfefkuhio3k2rjkofn2mbikbkwjhnkj >> .env
+          cat .env
       - name: npm install, build, and test
         run: |
           npm install
