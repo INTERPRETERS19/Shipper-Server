@@ -133,7 +133,7 @@ exports.getAllNewShipments = async (req, res, next) => {
 //     return res.status(200).json({
 //       success: true,
 //       count: pendingShipments.length,
-     
+
 //     });
 //   } catch (err) {
 //     return res.status(500).json({
