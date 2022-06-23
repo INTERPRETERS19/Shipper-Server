@@ -32,7 +32,6 @@ exports.signin = async (req, res) => {
     });
 
   const isMatch = await bcrypt.compare(password, user.password);
-
   if (!isMatch) {
     return res.json({
       success: false,
@@ -44,7 +43,7 @@ exports.signin = async (req, res) => {
   });
 
   const userInfo = {
-    fullname: user.fullname,
+    firstName: user.firstName,
     email: user.email,
     avatar: user.avatar ? user.avatar : "",
     id: user._id,

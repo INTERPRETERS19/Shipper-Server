@@ -7,7 +7,7 @@ exports.getPending = async (req, res, next) => {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
       current_status: {
-        $in: ["PickUp", "Rescheduled", "FailToDeliver", "OutForDelivery"],
+        $in: ["PickUp", "Rescheduled", "OutForDelivery"],
       },
     });
     return res.status(200).json({
@@ -136,58 +136,38 @@ exports.getDelivered = async (req, res, next) => {
   }
 };
 
-exports.getPayable = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const dataP = await Shipment.find({
-      shipper_details: mongoose.Types.ObjectId(id),
-      current_status: "Delivered",
-    });
-    return res.status(200).json({
-      success: true,
-      count: dataP.length,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
+// exports.getPayable = async (req, res, next) => {
+//   const { id } = req.params;
+//   try {
+//     const dataP = await Shipment.find({
+//       shipper_details: mongoose.Types.ObjectId(id),
+//       current_status: "Delivered",
+//     });
+//     console.log(dataP);
+//     return res.status(200).json({
+//       success: true,
+//       count: dataP.length,
+//     });
+//   } catch (err) {
+//     return res.status(500).json({
+//       success: false,
+//       error: "Server Error",
+//     });
+//   }
+// };
 
 exports.getRecievable = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const dataP = await Shipment.find({
-      shipper_details: mongoose.Types.ObjectId(id),
-      current_status: {
-        $in: ["PickUp", "Rescheduled", "FailToDeliver", "OutForDelivery"],
-      },
-    });
-    return res.status(200).json({
-      success: true,
-      count: dataP.length,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
-
-exports.getPayable = async (req, res, next) => {
-  const { id } = req.params;
-  try {
     const datapy = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
-      current_status: {
-        $in: ["PickUp", "Rescheduled", "FailToDeliver", "OutForDelivery"],
-      },
-      COD: { $gt: 0 },
-    });
+      current_status: "Delivered",
+    }).select({ COD: 1 });
+    let total = 0;
+    datapy.forEach((data) => (total += data.COD));
     return res.status(200).json({
       success: true,
+      total: total,
     });
   } catch (err) {
     return res.status(500).json({
