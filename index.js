@@ -7,8 +7,9 @@ const connection = require("./db");
 const cors = require("cors");
 const port = 8080;
 const useShipment = require("./routes/shipment");
-const useShipper = require("./routes/shipper");
+const useShipper = require("./routes/userRoute");
 const useBankDetails = require("./routes/bankdetails");
+const useHome = require("./routes/homeRouter");
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -24,9 +25,7 @@ app.use("/", require("./routes/userRoute"));
 app.use(useShipment);
 app.use(useShipper);
 app.use(useBankDetails);
-// app.get("/", (req, res) => {
-//   res.send("Hello world");
-// });
+app.use(useHome);
 
 app.use((error, req, res, next) => {
   res.status(500).json({ error: error.message });

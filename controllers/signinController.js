@@ -24,7 +24,6 @@ exports.signin = async (req, res) => {
   // }
 
   const user = await User.findOne({ email });
-  // const id = await user._id;
 
   if (!user)
     return res.json({
@@ -33,13 +32,14 @@ exports.signin = async (req, res) => {
     });
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch)
+
+  if (!isMatch) {
     return res.json({
       success: false,
       message: "email / password does not match!",
     });
-
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+  }
+  const token = jwt.sign({ userId: user._id }, JWTSecret, {
     expiresIn: "1d",
   });
 

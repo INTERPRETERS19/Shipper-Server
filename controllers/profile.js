@@ -1,15 +1,17 @@
-const Profile = require("../models/shipper");
+const Shipper = require("../models/shipper");
 
 exports.profile = async (req, res, next) => {
-  // const email = Profile.email;
-  // const value = req.body;
-  // console.log(value);
+  const { id } = req.params;
   try {
-    const profile = await Profile.findOne(req.body);
+    const profile = await Shipper.findById({ _id: id });
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for user" });
     }
-    res.json(profile);
+
+    return res.status(200).json({
+      success: true,
+      data: profile,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
