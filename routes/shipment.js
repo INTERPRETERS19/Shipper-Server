@@ -12,7 +12,7 @@ const {
 } = require("../controllers/shipment");
 
 router.post("/createsh", createShipment);
-router.get("/allshipment", getAllShipments);
+router.get("/allshipment/:id", getAllShipments);
 router.get("/allPickup/:id", getAllPickups);
 router.post("/delete_shipment", deleteShipment);
 router.get("/allNewshipment/:id", getAllNewShipments);
