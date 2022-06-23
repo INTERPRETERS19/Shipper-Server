@@ -24,18 +24,12 @@ exports.signin = async (req, res) => {
   // }
 
   const user = await User.findOne({ email });
-  // const id = user._id;
-  console.log(user);
-
-  console.log(user);
 
   if (!user)
     return res.json({
       success: false,
       message: "user not found, with the given email!",
     });
-  console.log(user.password);
-  console.log(password);
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {

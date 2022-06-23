@@ -22,7 +22,6 @@ exports.signup = async (req, res) => {
     district,
     mobile_no,
   } = req.body;
-  console.log(email);
 
   try {
     const oldUser = await Shipper.findOne({ email: email });
