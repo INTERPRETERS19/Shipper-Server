@@ -1,3 +1,4 @@
+const http = require("http");
 require("express-async-errors");
 require("dotenv").config();
 const bodyParser = require("body-parser");
@@ -42,8 +43,15 @@ app.use((error, req, res, next) => {
 //     path.resolve(__dirname, "Shipper_Client", "build", "index.html")
 //   );
 // });
+http.createServer((request, response) => {
+  response.writeHead(200, { "Content-Type": "text/plain" });
+  response.end("Hello World!");
+});
 
-app.set("port", process.env.PORT || 8000);
-console.log("App is listening" + app.get("port"));
-response.end("Hello World!");
+const port = process.env.PORT || 8000;
+app.listen(port);
+
+// app.set("port", process.env.PORT || 8000);
+// console.log("App is listening" + app.get("port"));
+// response.end("Hello World!");
 module.exports = app;
