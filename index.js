@@ -35,14 +35,15 @@ app.use((error, req, res, next) => {
 // app.listen(port, () => {
 //   console.log("Listening to Port ", port);
 // });
-app.use(express.static("../Shipper_Client/build"));
+// app.use(express.static("../Shipper_Client/build"));
 
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.resolve(__dirname, "Shipper_Client", "build", "index.html")
-  );
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(
+//     path.resolve(__dirname, "Shipper_Client", "build", "index.html")
+//   );
+// });
 
 app.set("port", process.env.PORT || 8000);
 console.log("App is listening" + app.get("port"));
+response.end("Hello World!");
 module.exports = app;
