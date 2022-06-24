@@ -2,27 +2,10 @@ const User = require("../models/shipper");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const JWTSecret = process.env.JWT_SECRET;
-//const { createJWT } = require("../utils/auth");
 const emailRegexp =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 exports.signin = async (req, res) => {
   const { email, password } = req.body;
-  // if (!email) {
-  //   errors.push({ email: "required" });
-  //   console.log("email required");
-  // }
-  // if (!emailRegexp.test(email)) {
-  //   errors.push({ email: "invalid email" });
-  //   console.log(errors);
-  // }
-  // if (!password) {
-  //   errors.push({ passowrd: "required" });
-  //   console.log(errors);
-  // }
-  // if (errors.length > 0) {
-  //   return res.status(422).json({ errors: errors });
-  // }
-
   const user = await User.findOne({ email });
 
   if (!user)
@@ -45,7 +28,6 @@ exports.signin = async (req, res) => {
   const userInfo = {
     firstName: user.firstName,
     email: user.email,
-    avatar: user.avatar ? user.avatar : "",
     id: user._id,
   };
 
