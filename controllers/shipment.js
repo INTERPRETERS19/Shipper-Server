@@ -3,6 +3,8 @@ const User = require("../models/user");
 const Shipper = require("../models/shipper");
 
 exports.createShipment = async (req, res) => {
+  const sid = req.body.shipperid;
+  console.log(sid);
   const {
     id,
     recipient_name,
@@ -10,7 +12,6 @@ exports.createShipment = async (req, res) => {
     secondary_phone_number,
     shipment_weight,
     DV,
-    postal_code,
     description,
     quantity,
     COD,
@@ -19,14 +20,17 @@ exports.createShipment = async (req, res) => {
     payment_method,
     created_at,
     current_status,
-    receipient_address,
+    r_postal_code,
+    r_no_street,
+    r_district,
+    r_city,
     shipper_details,
     driver_assigned,
+    pickup_date,
   } = req.body;
 
-  const r_address = await Address.findById(receipient_address);
-  const user = await User.findById(driver_assigned, ["fullname", "email"]);
-  const shipper = await Shipper.findById(shipper_details, shipper);
+  const user = await User.findById(driver_assigned);
+  const shipper = await Shipper.findById(sid);
 
   const shipment = await Shipment({
     id,
@@ -35,7 +39,6 @@ exports.createShipment = async (req, res) => {
     secondary_phone_number,
     shipment_weight,
     DV,
-    postal_code,
     description,
     quantity,
     COD,
@@ -44,9 +47,13 @@ exports.createShipment = async (req, res) => {
     payment_method,
     created_at,
     current_status,
-    receipient_address: r_address,
+    r_postal_code,
+    r_no_street,
+    r_district,
+    r_city,
     shipper_details: shipper,
     driver_assigned: user,
+    pickup_date,
   });
   await shipment.save();
   res.json({ success: true, shipment });
@@ -85,8 +92,11 @@ exports.deleteShipment = async (req, res, next) => {
 };
 
 exports.getAllShipments = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const shipments = await Shipment.find();
+    const shipments = await Shipment.find({
+      shipper_details: id,
+    });
 
     return res.status(200).json({
       success: true,
@@ -103,11 +113,88 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
-    const newShipments = await Shipment.find();
+
+    const { id } = req.params;
+    const newShipments = await Shipment.find({
+      current_status: "New",
+      shipper_details: id,
+    });
     return res.status(200).json({
       success: true,
       count: newShipments.length,
       data: newShipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+exports.getAllPickups = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const pickups = await Shipment.find({
+      current_status: "PickUp",
+      shipper_details: id,
+    });
+
+    return res.status(200).json({
+      success: true,
+      count: pickups.length,
+      data: pickups,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+
+exports.updateShipment = async (req, res, next) => {
+  try {
+    const shipments = await Shipment.updateOne(
+      { _id: req.body.id },
+      {
+        pickup_date: req.body.value,
+        current_status: "PickUp",
+      }
+    );
+    // const shipments = await Shipment.find({ _id: req.body.id });
+    return res.status(200).json({
+      success: true,
+      message: "Updated successfully",
+      // message: shipments,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+exports.getAllReturns = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const returns = await Shipment.find({
+      current_status: { $in: ["FailToDeliver", "Rescheduled"] },
+      shipper_details: id,
+    });
+    // .select({
+    //   id: 1,
+    //   COD: 1,
+    //   recipient_name: 1,
+    //   shipment_weight: 1,
+    //   description: 1,
+    //   receipient_address: 1,
+    //   current_status: 1,
+    // });
+
+    return res.status(200).json({
+      success: true,
+      count: returns.length,
+      data: returns,
     });
   } catch (err) {
     return res.status(500).json({

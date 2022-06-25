@@ -2,14 +2,9 @@ const handlebars = require("handlebars");
 const fs = require("fs");
 const path = require("path");
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(
-  "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"
-);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = async (email, subject, payload, template) => {
-  console.log(email);
-  console.log(process.env.FROM_EMAIL);
-
   const source = fs.readFileSync(path.join(__dirname, template), "utf8");
   const compiledTemplate = handlebars.compile(source);
 
