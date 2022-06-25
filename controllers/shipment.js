@@ -113,7 +113,6 @@ exports.getAllShipments = async (req, res, next) => {
 
 exports.getAllNewShipments = async (req, res, next) => {
   try {
-
     const { id } = req.params;
     const newShipments = await Shipment.find({
       current_status: "New",
@@ -181,16 +180,6 @@ exports.getAllReturns = async (req, res, next) => {
       current_status: { $in: ["FailToDeliver", "Rescheduled"] },
       shipper_details: id,
     });
-    // .select({
-    //   id: 1,
-    //   COD: 1,
-    //   recipient_name: 1,
-    //   shipment_weight: 1,
-    //   description: 1,
-    //   receipient_address: 1,
-    //   current_status: 1,
-    // });
-
     return res.status(200).json({
       success: true,
       count: returns.length,
@@ -204,28 +193,22 @@ exports.getAllReturns = async (req, res, next) => {
   }
 };
 
-// exports.getAllPendingShipments = async (req, res, next) => {
-//   try {
-//     const pendingShipments = await Shipment.find({ current_status: "PickUp" } || { current_status: "New" } || { current_status: "Rescheduled" } ||{ current_status: "FailToDeliver" });
-//     // }).select({
-//     //   id: 1,
-//     //   COD: 1,
-//     //   recipient_name: 1,
-//     //   mobile_phone_number: 1,
-//     //   description: 1,
-//     //   created_at: 1,
-//     //   receipient_address: 1,
-//     // })
-
-//     return res.status(200).json({
-//       success: true,
-//       count: pendingShipments.length,
-
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       error: "Server Error",
-//     });
-//   }
-// };
+exports.getAllDeliveredShipment = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const returns = await Shipment.find({
+      current_status: "Delivered",
+      shipper_details: id,
+    });
+    return res.status(200).json({
+      success: true,
+      count: returns.length,
+      data: returns,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
