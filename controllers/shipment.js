@@ -1,6 +1,7 @@
 const Shipment = require("../models/shipment");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
+const shipment = require("../models/shipment");
 
 exports.createShipment = async (req, res) => {
   const sid = req.body.shipperid;
