@@ -1,9 +1,10 @@
 const Shipment = require("../models/shipment");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
+const shipment = require("../models/shipment");
 
 exports.createShipment = async (req, res) => {
-  const  sid  = req.body.shipperid;
+  const sid = req.body.shipperid;
   console.log(sid);
   const {
     id,
@@ -133,21 +134,24 @@ exports.getAllNewShipments = async (req, res, next) => {
 exports.getAllPickups = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const pickups = await Shipment.find({ current_status: "PickUp",shipper_details: id });
-    console.log(pickups)
+    const pickups = await Shipment.find({
+      current_status: "PickUp",
+      shipper_details: id,
+    });
+    console.log(pickups);
 
     return res.status(200).json({
       success: true,
       count: pickups.length,
-      data: pickups,})
-    }
-   catch (err) {
+      data: pickups,
+    });
+  } catch (err) {
     return res.status(500).json({
       success: false,
       error: "Server Error",
     });
   }
-  };
+};
 
 exports.updateShipment = async (req, res, next) => {
   try {
@@ -200,6 +204,22 @@ exports.getAllReturns = async (req, res, next) => {
     });
   }
 };
+
+// get shipment for Search Data by ID
+// const Track = require("../models/shipment");
+
+// exports.trackShipment = async (req, res, next) => {
+//   try {
+//     const trackShipment = await Track.findOne(req.body);
+//     if (!trackShipment) {
+//       return res.status(400).json({ msg: "There is no shipment" });
+//     }
+//     res.json(trackShipment);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// };
 
 // exports.getAllPendingShipments = async (req, res, next) => {
 //   try {

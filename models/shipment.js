@@ -12,7 +12,7 @@ const ShipmentSchema = new mongoose.Schema({
   },
 
   r_postal_code: {
-    type: Number,
+    type: String,
   },
 
   r_no_street: {
@@ -39,10 +39,12 @@ const ShipmentSchema = new mongoose.Schema({
   },
   secondary_phone_number: {
     type: String,
+    default: null
   },
 
   DV: {
     type: Number,
+    default: 0
   },
   description: {
     type: String,
