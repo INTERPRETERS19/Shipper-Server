@@ -59,7 +59,6 @@ exports.createShipment = async (req, res) => {
   await shipment.save();
   res.json({ success: true, shipment });
 };
-
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().populate("userAddress", "city");
@@ -80,12 +79,10 @@ exports.getUsers = async (req, res, next) => {
 exports.deleteShipment = async (req, res, next) => {
   try {
     const shipments = await Shipment.deleteOne({ _id: req.body.id });
-    // const shipments = await Shipment.find({ _id: req.body.id });
 
     return res.status(200).json({
       success: true,
       message: "Deleted successfully",
-      // message: shipments,
     });
   } catch (err) {
     return res.status(500).json({
@@ -96,8 +93,11 @@ exports.deleteShipment = async (req, res, next) => {
 };
 
 exports.getAllShipments = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const shipments = await Shipment.find();
+    const shipments = await Shipment.find({
+      shipper_details: id,
+    });
 
     return res.status(200).json({
       success: true,
@@ -138,7 +138,6 @@ exports.getAllPickups = async (req, res, next) => {
       current_status: "PickUp",
       shipper_details: id,
     });
-    console.log(pickups);
 
     return res.status(200).json({
       success: true,
@@ -182,16 +181,6 @@ exports.getAllReturns = async (req, res, next) => {
       current_status: { $in: ["FailToDeliver", "Rescheduled"] },
       shipper_details: id,
     });
-    // .select({
-    //   id: 1,
-    //   COD: 1,
-    //   recipient_name: 1,
-    //   shipment_weight: 1,
-    //   description: 1,
-    //   receipient_address: 1,
-    //   current_status: 1,
-    // });
-
     return res.status(200).json({
       success: true,
       count: returns.length,
@@ -205,44 +194,22 @@ exports.getAllReturns = async (req, res, next) => {
   }
 };
 
-// get shipment for Search Data by ID
-// const Track = require("../models/shipment");
-
-// exports.trackShipment = async (req, res, next) => {
-//   try {
-//     const trackShipment = await Track.findOne(req.body);
-//     if (!trackShipment) {
-//       return res.status(400).json({ msg: "There is no shipment" });
-//     }
-//     res.json(trackShipment);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// };
-
-// exports.getAllPendingShipments = async (req, res, next) => {
-//   try {
-//     const pendingShipments = await Shipment.find({ current_status: "PickUp" } || { current_status: "New" } || { current_status: "Rescheduled" } ||{ current_status: "FailToDeliver" });
-//     // }).select({
-//     //   id: 1,
-//     //   COD: 1,
-//     //   recipient_name: 1,
-//     //   mobile_phone_number: 1,
-//     //   description: 1,
-//     //   created_at: 1,
-//     //   receipient_address: 1,
-//     // })
-
-//     return res.status(200).json({
-//       success: true,
-//       count: pendingShipments.length,
-
-//     });
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       error: "Server Error",
-//     });
-//   }
-// };
+exports.getAllDeliveredShipment = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const returns = await Shipment.find({
+      current_status: "Delivered",
+      shipper_details: id,
+    });
+    return res.status(200).json({
+      success: true,
+      count: returns.length,
+      data: returns,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};

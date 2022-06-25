@@ -12,8 +12,16 @@ const JWTSecret = process.env.JWT_SECRET;
 const bcryptSalt = process.env.BCRYPT_SALT;
 
 exports.signup = async (req, res) => {
-  const { email, password, firstName, lastName ,street, city, district, mobile_no} = req.body;
-  console.log(email);
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+    street,
+    city,
+    district,
+    mobile_no,
+  } = req.body;
 
   try {
     const oldUser = await Shipper.findOne({ email: email });
@@ -32,7 +40,7 @@ exports.signup = async (req, res) => {
       street,
       city,
       district,
-      mobile_no
+      mobile_no,
     });
 
     const token = JWT.sign({ id: result._id }, JWTSecret);
@@ -47,7 +55,6 @@ exports.signup = async (req, res) => {
       token: token,
       message: data,
     });
-
   } catch (error) {
     res.status(500).json({ message: "Something went wrong3" });
 

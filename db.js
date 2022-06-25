@@ -18,6 +18,6 @@ module.exports = async function connection() {
       }
     );
   } catch (error) {
-    console.log(error);
+    console.log("not connected");
   }
 };
