@@ -1,5 +1,6 @@
 require("express-async-errors");
 require("dotenv").config();
+
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
@@ -10,6 +11,7 @@ const useShipment = require("./routes/shipment");
 const useShipper = require("./routes/userRoute");
 const useBankDetails = require("./routes/bankdetails");
 const useHome = require("./routes/homeRouter");
+const useReview = require('./routes/review');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,6 +28,7 @@ app.use(useShipment);
 app.use(useShipper);
 app.use(useBankDetails);
 app.use(useHome);
+app.use(useReview);
 
 app.use((error, req, res, next) => {
   res.status(500).json({ error: error.message });
