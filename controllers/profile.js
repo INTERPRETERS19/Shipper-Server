@@ -17,3 +17,32 @@ exports.profile = async (req, res, next) => {
     res.status(500).send("Server Error");
   }
 };
+
+exports.updateProfile = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const uProfile = await Shipper.updateOne(
+      { _id: id },
+      // {
+      //   email: req.body.email,
+      //   firstName: req.body.firstName,
+      //   lastName: req.body.lastName,
+      //   mobile_no: req.body.mobile_no,
+      //   street: req.body.street,
+      //   city: req.body.city,
+      //   district: req.body.district,
+      // }
+      req.body
+    );
+    return res.status(200).json({
+      success: true,
+      message: "Profile Updated successfully",
+      data: uProfile,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};

@@ -139,14 +139,16 @@ exports.getDelivered = async (req, res, next) => {
 // exports.getPayable = async (req, res, next) => {
 //   const { id } = req.params;
 //   try {
-//     const dataP = await Shipment.find({
+//     const datagp = await Shipment.find({
 //       shipper_details: mongoose.Types.ObjectId(id),
 //       current_status: "Delivered",
+//       prepaid: true,
 //     });
-//     console.log(dataP);
+//     let SumFee = 0;
+//     datagp.forEach((data) => (SumFee += data.COD - data.DV));
 //     return res.status(200).json({
 //       success: true,
-//       count: dataP.length,
+//       SumFee: SumFee,
 //     });
 //   } catch (err) {
 //     return res.status(500).json({
@@ -155,6 +157,7 @@ exports.getDelivered = async (req, res, next) => {
 //     });
 //   }
 // };
+// prepaid=true, then->sum(COD-DV)
 
 exports.getRecievable = async (req, res, next) => {
   const { id } = req.params;
@@ -162,12 +165,12 @@ exports.getRecievable = async (req, res, next) => {
     const datapy = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
       current_status: "Delivered",
-    }).select({ COD: 1 });
-    let total = 0;
-    datapy.forEach((data) => (total += data.COD));
+    }).select({ DV: 1 });
+    let SumDV = 0;
+    datapy.forEach((data) => (SumDV += data.DV));
     return res.status(200).json({
       success: true,
-      total: total,
+      SumDV: SumDV,
     });
   } catch (err) {
     return res.status(500).json({
