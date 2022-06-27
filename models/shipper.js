@@ -47,8 +47,7 @@ const userSchema = new Schema(
       required: true,
     },
     img: {
-      data: Buffer,
-      contentType: String,
+     type:String,
     },
     verified: {
       type: Boolean,
