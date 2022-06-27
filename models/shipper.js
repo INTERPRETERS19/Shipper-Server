@@ -46,6 +46,10 @@ const userSchema = new Schema(
       trim: true,
       required: true,
     },
+    img: {
+      data: Buffer,
+      contentType: String,
+    },
     verified: {
       type: Boolean,
       default: false,

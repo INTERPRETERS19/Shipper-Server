@@ -10,8 +10,8 @@ const {
   getNew,
   getDelivered,
   getRecievable,
-  getPayable,
 } = require("../controllers/homeController");
+const {getshipmentCOD} =require("../controllers/ReportController");
 
 router.get("/getpending/:id", getPending);
 router.get("/getFailtoDeliver/:id", getFailtoDeliver);
@@ -21,5 +21,5 @@ router.get("/getOutForDelivery/:id", getOutForDelivery);
 router.get("/getNew/:id", getNew);
 router.get("/getDelivered/:id", getDelivered);
 router.get("/getRecievable/:id", getRecievable);
-// router.get("/getPayable/:id", getPayable);
+router.get("/getshipmentCOD/:id", getshipmentCOD);
 module.exports = router;
