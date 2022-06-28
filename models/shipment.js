@@ -39,12 +39,12 @@ const ShipmentSchema = new mongoose.Schema({
   },
   secondary_phone_number: {
     type: String,
-    default: null
+    default: null,
   },
 
   DV: {
     type: Number,
-    default: 0
+    default: 0,
   },
   description: {
     type: String,
@@ -96,6 +96,15 @@ const ShipmentSchema = new mongoose.Schema({
     ref: "user",
   },
   pickup_date: {
+    type: Date,
+    default: null,
+  },
+  reason: {
+    default: "Not applicable",
+    type: String,
+    required: false,
+  },
+  delivered_date: {
     type: Date,
     default: null,
   },
