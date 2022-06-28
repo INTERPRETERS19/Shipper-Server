@@ -46,8 +46,8 @@ const userSchema = new Schema(
       trim: true,
       required: true,
     },
-    img: {
-     type:String,
+    photo: {
+      type: String,
     },
     verified: {
       type: Boolean,
