@@ -1,11 +1,9 @@
 const Shipment = require("../models/shipment");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
-const shipment = require("../models/shipment");
 
 exports.createShipment = async (req, res) => {
   const sid = req.body.shipperid;
-  console.log(sid);
   const {
     id,
     recipient_name,
@@ -205,6 +203,24 @@ exports.getAllDeliveredShipment = async (req, res, next) => {
       success: true,
       count: returns.length,
       data: returns,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+
+exports.shipmentInfo = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const shipment = await Shipment.findById({
+      _id: id,
+    });
+    return res.status(200).json({
+      success: true,
+      data: shipment,
     });
   } catch (err) {
     return res.status(500).json({

@@ -47,7 +47,7 @@ exports.deleteBank = async (req, res, next) => {
   const { id } = req.params;
   try {
     const bankdetails = await Bank.deleteOne({
-      shipper_id: id,
+      _id: id,
     });
 
     return res.status(200).json({

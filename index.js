@@ -1,3 +1,4 @@
+const http = require("http");
 require("express-async-errors");
 require("dotenv").config();
 
@@ -13,6 +14,7 @@ const useShipper = require("./routes/userRoute");
 const useBankDetails = require("./routes/bankdetails");
 const useHome = require("./routes/homeRouter");
 // const imageRouter=require ('./routes/image');
+
 const useReview = require('./routes/review');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,3 +43,15 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+// // });
+// http.createServer((request, response) => {
+//   response.writeHead(200, { "Content-Type": "text/plain" });
+//   response.end("Hello World!");
+// });
+// const port = 8000;
+// // const port = process.env.PORT || 8000;
+// app.listen(port);
+
+// console.log(`App is listening ${port}`);
+// // response.end("Hello World!");
+// module.exports = app;
