@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon index.js",
+    "dev": "nodemon index.js",
     "start": "nodemon start",
     "test": "echo \"Error: no test specified\" && exit 1",
-     "int-test": "mocha --require babel-core/register --recursive test"
+    "int-test": "mocha --require babel-core/register --recursive test"
   },
   "keywords": [],
   "author": "",
