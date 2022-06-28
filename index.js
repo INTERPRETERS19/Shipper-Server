@@ -14,7 +14,8 @@ const useShipper = require("./routes/userRoute");
 const useBankDetails = require("./routes/bankdetails");
 const useHome = require("./routes/homeRouter");
 // const imageRouter=require ('./routes/image');
-const useReview = require("./routes/review");
+
+const useReview = require('./routes/review');
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
