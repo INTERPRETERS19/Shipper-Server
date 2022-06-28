@@ -1,3 +1,4 @@
+const http = require("http");
 require("express-async-errors");
 require("dotenv").config();
 
@@ -14,12 +15,19 @@ const port = 8080;
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+app.use(express.static("public"));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 const useShipment = require("./routes/shipment");
 const useShipper = require("./routes/userRoute");
 const useBankDetails = require("./routes/bankdetails");
 const useHome = require("./routes/homeRouter");
+// const imageRouter=require ('./routes/image');
+
 const useReview = require("./routes/review");
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,8 +40,8 @@ app.use(cors());
 app.use(express.json());
 
 // API routes
-const imageRouter = require('./routes/imageRoute');
-app.use('/image', imageRouter);
+const imageRouter = require("./routes/imageRoute");
+app.use("/image", imageRouter);
 
 app.use("/", require("./routes/userRoute"));
 app.use(useShipment);
@@ -50,3 +58,15 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+// // });
+// http.createServer((request, response) => {
+//   response.writeHead(200, { "Content-Type": "text/plain" });
+//   response.end("Hello World!");
+// });
+// const port = 8000;
+// // const port = process.env.PORT || 8000;
+// app.listen(port);
+
+// console.log(`App is listening ${port}`);
+// // response.end("Hello World!");
+// module.exports = app;

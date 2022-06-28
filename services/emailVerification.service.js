@@ -46,7 +46,7 @@ const requestEmailVerification = async (email) => {
   }).save();
 
   const link = `localhost:3000/emailVerification?token=${resetToken}&id=${user._id}`;
-  
+
 
   sendEmail(
     user.email,
@@ -88,7 +88,7 @@ const emailVerification = async (userId, token) => {
     {
       name: user.name,
     },
-    "./template/resetPassword.handlebars"
+    "./template/sucessRegistration.handlebars"
   );
 
   await emailVerificationToken.deleteOne();
