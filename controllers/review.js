@@ -18,3 +18,22 @@ exports.addReview = async (req, res) => {
   await review.save();
   res.json({ success: true, review });
 };
+
+exports.getReview = async (req,res) => {
+  const review = await Review.find({})
+  try{
+      res.status(200).json({
+          status : 'Success',
+          data : {
+              review
+          }
+      })
+  }catch(err){
+      res.status(500).json({
+          status: 'Failed',
+          message : err
+      })
+  }
+};
+
+
