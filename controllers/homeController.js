@@ -7,7 +7,7 @@ exports.getPending = async (req, res, next) => {
     const dataP = await Shipment.find({
       shipper_details: mongoose.Types.ObjectId(id),
       current_status: {
-        $in: ["PickUp", "Rescheduled", "OutForDelivery"],
+        $in: ["PickUp", "Rescheduled", "OutForDelivery","PickedUp"],
       },
     });
     return res.status(200).json({
@@ -41,6 +41,24 @@ exports.getFailtoDeliver = async (req, res, next) => {
   }
 };
 
+exports.getPickedUp = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const dataP = await Shipment.find({
+      shipper_details: mongoose.Types.ObjectId(id),
+      current_status: "PickedUp",
+    });
+    return res.status(200).json({
+      success: true,
+      count: dataP.length,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
 exports.getPickUp = async (req, res, next) => {
   const { id } = req.params;
   try {

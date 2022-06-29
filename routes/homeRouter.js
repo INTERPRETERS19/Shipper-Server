@@ -5,6 +5,7 @@ const {
   getPending,
   getFailtoDeliver,
   getPickUp,
+  getPickedUp,
   getRescheduled,
   getOutForDelivery,
   getNew,
@@ -16,6 +17,7 @@ const {getshipmentCOD} =require("../controllers/ReportController");
 router.get("/getpending/:id", getPending);
 router.get("/getFailtoDeliver/:id", getFailtoDeliver);
 router.get("/getPickUp/:id", getPickUp);
+router.get("/getPickedUp/:id", getPickedUp);
 router.get("/getRescheduled/:id", getRescheduled);
 router.get("/getOutForDelivery/:id", getOutForDelivery);
 router.get("/getNew/:id", getNew);
