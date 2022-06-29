@@ -6,7 +6,12 @@ const {
 
 const { signin } = require("../controllers/signinController");
 const { signup } = require("../controllers/signupController");
-const { profile } = require("../controllers/profile");
+const {
+  profile,
+  updateProfile,
+  uploadImage,
+  getImage,
+} = require("../controllers/profile");
 const {
   emailVerificationController,
   requestEmailVerificationController,
@@ -20,6 +25,9 @@ router.post("/requestResetPassword", resetPasswordRequestController);
 router.post("/resetPassword", resetPasswordController);
 router.post("/changePassword", changePasswordController);
 router.get("/profileShipper/:id", profile);
+router.post("/updateProfile/:id", updateProfile);
+router.post("/uploadImage/:id", uploadImage);
+router.get("/getImage/:id", getImage);
 router.post("/emailVerification", emailVerificationController);
 router.post("/requestEmailVerification", requestEmailVerificationController);
 

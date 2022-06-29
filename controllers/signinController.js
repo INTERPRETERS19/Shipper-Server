@@ -25,31 +25,32 @@ exports.signin = async (req, res) => {
       success: false,
       message: "user not found, with the given email!",
     });
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    return res.json({
-      success: false,
-      message: "email / password does not match!",
-    });
-  }
   if (user.verified) {
     const token = jwt.sign({ userId: user._id }, JWTSecret, {
-      expiresIn: "1d",
+      expiresIn: "2h",
     });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.json({
+        success: false,
+        message: "email / password does not match!",
+      });
+    }
 
     const userInfo = {
       firstName: user.firstName,
       email: user.email,
       avatar: user.avatar ? user.avatar : "",
       id: user._id,
+      token: token,
     };
 
-    res.json({ success: true, user: userInfo, token });
+    res.json({ success: true, user: userInfo });
   } else {
     return res.json({
       success: false,
-      message: "user email is not jet Verified!.",
+      error: true,
+      message: "User email is not jet Verified!.Please click this text.",
     });
   }
 };
