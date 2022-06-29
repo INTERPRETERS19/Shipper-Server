@@ -27,6 +27,7 @@ exports.updateProfile = async (req, res, next) => {
       {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        mobile_no: req.body.mobile_no,
         street: req.body.street,
         city: req.body.city,
         district: req.body.district,
