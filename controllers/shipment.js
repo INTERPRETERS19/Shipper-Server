@@ -76,12 +76,23 @@ exports.getUsers = async (req, res, next) => {
 
 exports.deleteShipment = async (req, res, next) => {
   try {
-    const shipments = await Shipment.deleteOne({ _id: req.body.id });
-
-    return res.status(200).json({
-      success: true,
-      message: "Deleted successfully",
-    });
+    const shipment = await Shipment.findOne({ _id: req.body.id });
+    if (
+      shipment.current_status === "New" ||
+      shipment.current_status === "Delivered"
+    ) {
+      const shipments = await Shipment.deleteOne({});
+      return res.status(200).json({
+        success: true,
+        message: "Deleted successfully",
+      });
+    } else {
+      return res.json({
+        success: false,
+        isNewOrDelivered: false,
+        error: "Only New or Delivered shipments can be deleted",
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       success: false,
