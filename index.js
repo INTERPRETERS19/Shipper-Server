@@ -27,7 +27,6 @@ app.use(cors());
 app.use(express.json());
 
 // API routes
-app.use("/", require("./routes/userRoute"));
 app.use(useShipment);
 app.use(useShipper);
 app.use(useBankDetails);
