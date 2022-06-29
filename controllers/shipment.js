@@ -1,6 +1,70 @@
+// const Shipment = require("../models/shipment");
+// const User = require("../models/user");
+// const Shipper = require("../models/shipper");
+
+// exports.createShipment = async (req, res) => {
+//   const sid = req.body.shipperid;
+//   const {
+//     id,
+//     recipient_name,
+//     mobile_phone_number,
+//     secondary_phone_number,
+//     shipment_weight,
+//     delivery_fee,
+//     DV,
+//     description,
+//     quantity,
+//     COD,
+//     prepaid,
+//     handling,
+//     payment_method,
+//     created_at,
+//     current_status,
+//     r_postal_code,
+//     r_no_street,
+//     r_district,
+//     r_city,
+//     shipper_details,
+//     driver_assigned,
+//     pickup_date,
+//   } = req.body;
+
+//   const user = await User.findById(driver_assigned);
+//   const shipper = await Shipper.findById(sid);
+
+//   const shipment = await Shipment({
+//     id,
+//     recipient_name,
+//     mobile_phone_number,
+//     secondary_phone_number,
+//     shipment_weight,
+//     delivery_fee,
+//     DV,
+//     description,
+//     quantity,
+//     COD,
+//     prepaid,
+//     handling,
+//     payment_method,
+//     created_at,
+//     current_status,
+//     r_postal_code,
+//     r_no_street,
+//     r_district,
+//     r_city,
+//     shipper_details: shipper,
+//     driver_assigned: user,
+//     pickup_date,
+//   });
+//   await shipment.save();
+//   res.json({ success: true, shipment });
+// };
+
 const Shipment = require("../models/shipment");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
+const { setDriver } = require("mongoose");
+const DeliveryFees = require("../models/deliveryFee");
 
 exports.createShipment = async (req, res) => {
   const sid = req.body.shipperid;
@@ -10,7 +74,6 @@ exports.createShipment = async (req, res) => {
     mobile_phone_number,
     secondary_phone_number,
     shipment_weight,
-    delivery_fee,
     DV,
     description,
     quantity,
@@ -27,10 +90,35 @@ exports.createShipment = async (req, res) => {
     shipper_details,
     driver_assigned,
     pickup_date,
+    delivery_fee,
   } = req.body;
-
   const user = await User.findById(driver_assigned);
   const shipper = await Shipper.findById(sid);
+  const feeplan = await DeliveryFees.find();
+  console.log(feeplan);
+  let fee = 0;
+  // let std = 100;
+  let std = feeplan[0].standard_fee;
+  console.log(std);
+  if (shipment_weight <= 3) {
+    fee = feeplan[0].category1 + std;
+    // fee = 400 + std;
+  } else if (shipment_weight > 3 && shipment_weight <= 6) {
+    fee = feeplan[0].category2 + std;
+    // fee = 500 + std;
+  } else if (shipment_weight > 6 && shipment_weight <= 10) {
+    fee = feeplan[0].category3 + std;
+    // fee = 650 + std;
+  } else if (shipment_weight > 10 && shipment_weight <= 20) {
+    fee = feeplan[0].category4 + std;
+    // fee = 750 + std;
+  } else {
+    fee =
+      feeplan[0].category5 +
+      (shipment_weight - 20) * feeplan[0].additional +
+      std;
+    // fee = 1000 + (shipment_weight - 20) * 50 + std;
+  }
 
   const shipment = await Shipment({
     id,
@@ -38,7 +126,6 @@ exports.createShipment = async (req, res) => {
     mobile_phone_number,
     secondary_phone_number,
     shipment_weight,
-    delivery_fee,
     DV,
     description,
     quantity,
@@ -55,10 +142,12 @@ exports.createShipment = async (req, res) => {
     shipper_details: shipper,
     driver_assigned: user,
     pickup_date,
+    delivery_fee: fee,
   });
   await shipment.save();
   res.json({ success: true, shipment });
 };
+
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().populate("userAddress", "city");
