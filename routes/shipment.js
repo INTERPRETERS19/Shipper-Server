@@ -10,6 +10,7 @@ const {
   updateShipment,
   getAllReturns,
   getAllDeliveredShipment,
+  shipmentInfo,
 } = require("../controllers/shipment");
 
 router.post("/createsh", createShipment);
@@ -20,5 +21,6 @@ router.get("/allNewshipment/:id", getAllNewShipments);
 router.get("/returns/:id", getAllReturns);
 router.post("/update_shipment", updateShipment);
 router.get("/delivered/:id", getAllDeliveredShipment);
+router.get("/shipmentInfo/:id", shipmentInfo);
 
 module.exports = router;
