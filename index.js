@@ -26,9 +26,8 @@ const useShipment = require("./routes/shipment");
 const useShipper = require("./routes/userRoute");
 const useBankDetails = require("./routes/bankdetails");
 const useHome = require("./routes/homeRouter");
-// const imageRouter=require ('./routes/image');
-
 const useReview = require("./routes/review");
+const useDeliveryFeePlan = require("./routes/deliveryFee");
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -49,6 +48,7 @@ app.use(useShipper);
 app.use(useBankDetails);
 app.use(useHome);
 app.use(useReview);
+app.use(useDeliveryFeePlan);
 app.use((error, req, res, next) => {
   res.status(500).json({ error: error.message });
 });
@@ -58,15 +58,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-// // });
-// http.createServer((request, response) => {
-//   response.writeHead(200, { "Content-Type": "text/plain" });
-//   response.end("Hello World!");
-// });
-// const port = 8000;
-// // const port = process.env.PORT || 8000;
-// app.listen(port);
 
-// console.log(`App is listening ${port}`);
-// // response.end("Hello World!");
-// module.exports = app;
