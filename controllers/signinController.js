@@ -27,7 +27,7 @@ exports.signin = async (req, res) => {
     });
   if (user.verified) {
     const token = jwt.sign({ userId: user._id }, JWTSecret, {
-      expiresIn: "1d",
+      expiresIn: "2h",
     });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -42,9 +42,10 @@ exports.signin = async (req, res) => {
       email: user.email,
       avatar: user.avatar ? user.avatar : "",
       id: user._id,
+      token: token,
     };
 
-    res.json({ success: true, user: userInfo, token });
+    res.json({ success: true, user: userInfo });
   } else {
     return res.json({
       success: false,
