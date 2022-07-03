@@ -33,6 +33,11 @@ const ShipmentSchema = new mongoose.Schema({
     required: true,
   },
 
+  delivery_fee: {
+    type: Number,
+    required: true,
+  },
+
   mobile_phone_number: {
     type: String,
     required: true,
@@ -60,11 +65,6 @@ const ShipmentSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0,
-  },
-
-  prepaid: {
-    type: Boolean,
-    required: true,
   },
 
   handling: {
