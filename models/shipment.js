@@ -33,6 +33,11 @@ const ShipmentSchema = new mongoose.Schema({
     required: true,
   },
 
+  delivery_fee: {
+    type: Number,
+    required: true,
+  },
+
   mobile_phone_number: {
     type: String,
     required: true,
