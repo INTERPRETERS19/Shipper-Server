@@ -1,7 +1,7 @@
 const JWT = require("jsonwebtoken");
 const User = require("../models/shipper");
 const Token = require("../models/Token.model");
-const { sendEmail } = require("../utils/email/sendEmail");
+const sendEmail = require("../utils/email/sendEmail");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
@@ -47,7 +47,6 @@ const requestEmailVerification = async (email) => {
 
   const link = `localhost:3000/emailVerification?token=${resetToken}&id=${user._id}`;
 
-
   sendEmail(
     user.email,
     "Email verification Request",
@@ -75,10 +74,7 @@ const emailVerification = async (userId, token) => {
     return false;
   }
 
-  await User.updateOne(
-    { _id: userId },
-    { $set: { verified: true } },
-  );
+  await User.updateOne({ _id: userId }, { $set: { verified: true } });
 
   const user = await User.findById({ _id: userId });
 
@@ -99,5 +95,4 @@ const emailVerification = async (userId, token) => {
 module.exports = {
   requestEmailVerification,
   emailVerification,
-
 };

@@ -67,11 +67,6 @@ const ShipmentSchema = new mongoose.Schema({
     default: 0,
   },
 
-  prepaid: {
-    type: Boolean,
-    required: true,
-  },
-
   handling: {
     type: String,
     required: true,
@@ -112,6 +107,11 @@ const ShipmentSchema = new mongoose.Schema({
   delivered_date: {
     type: Date,
     default: null,
+  },
+  delivery_fee: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 

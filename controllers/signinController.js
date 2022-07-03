@@ -23,7 +23,7 @@ exports.signin = async (req, res) => {
   if (!user)
     return res.json({
       success: false,
-      message: "user not found, with the given email!",
+      message: "Email /Password does not match!",
     });
   if (user.verified) {
     const token = jwt.sign({ userId: user._id }, JWTSecret, {
@@ -33,7 +33,7 @@ exports.signin = async (req, res) => {
     if (!isMatch) {
       return res.json({
         success: false,
-        message: "email / password does not match!",
+        message: "Email / Password does not match!",
       });
     }
 
