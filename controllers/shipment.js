@@ -1,65 +1,3 @@
-// const Shipment = require("../models/shipment");
-// const User = require("../models/user");
-// const Shipper = require("../models/shipper");
-
-// exports.createShipment = async (req, res) => {
-//   const sid = req.body.shipperid;
-//   const {
-//     id,
-//     recipient_name,
-//     mobile_phone_number,
-//     secondary_phone_number,
-//     shipment_weight,
-//     delivery_fee,
-//     DV,
-//     description,
-//     quantity,
-//     COD,
-//     prepaid,
-//     handling,
-//     payment_method,
-//     created_at,
-//     current_status,
-//     r_postal_code,
-//     r_no_street,
-//     r_district,
-//     r_city,
-//     shipper_details,
-//     driver_assigned,
-//     pickup_date,
-//   } = req.body;
-
-//   const user = await User.findById(driver_assigned);
-//   const shipper = await Shipper.findById(sid);
-
-//   const shipment = await Shipment({
-//     id,
-//     recipient_name,
-//     mobile_phone_number,
-//     secondary_phone_number,
-//     shipment_weight,
-//     delivery_fee,
-//     DV,
-//     description,
-//     quantity,
-//     COD,
-//     prepaid,
-//     handling,
-//     payment_method,
-//     created_at,
-//     current_status,
-//     r_postal_code,
-//     r_no_street,
-//     r_district,
-//     r_city,
-//     shipper_details: shipper,
-//     driver_assigned: user,
-//     pickup_date,
-//   });
-//   await shipment.save();
-//   res.json({ success: true, shipment });
-// };
-
 const Shipment = require("../models/shipment");
 const User = require("../models/user");
 const Shipper = require("../models/shipper");
@@ -78,7 +16,6 @@ exports.createShipment = async (req, res) => {
     description,
     quantity,
     COD,
-    prepaid,
     handling,
     payment_method,
     created_at,
@@ -130,7 +67,6 @@ exports.createShipment = async (req, res) => {
     description,
     quantity,
     COD,
-    prepaid,
     handling,
     payment_method,
     created_at,
