@@ -67,11 +67,6 @@ const ShipmentSchema = new mongoose.Schema({
     default: 0,
   },
 
-  prepaid: {
-    type: Boolean,
-    required: true,
-  },
-
   handling: {
     type: String,
     required: true,
