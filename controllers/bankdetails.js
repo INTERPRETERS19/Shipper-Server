@@ -34,6 +34,7 @@ exports.getAllBankDetails = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: bankdetails,
+      count: bankdetails.length,
     });
   } catch (err) {
     return res.status(500).json({
